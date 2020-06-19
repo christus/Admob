@@ -62,17 +62,17 @@ public class MainActivity extends Activity {
             JSONArray jsonArray = jsonRootObject.optJSONArray("result");
             this.showCard(jsonArray.getJSONObject(item));
 
-//            for(int i=0; i < jsonArray.length(); i++){
-//                JSONObject jsonObject = jsonArray.getJSONObject(i);
-//
-//               // int id = Integer.parseInt(jsonObject.optString("id").toString());
-//                String name = jsonObject.optString("title").toString();
-//                String imageUrl = jsonObject.optString("imageUrl").toString();
-//
-//                System.out.println("name **"+name);;
-//                System.out.println("imageUrl **"+imageUrl);;
-//
-//            }
+    /*       for(int i=0; i < jsonArray.length(); i++){
+               JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+              // int id = Integer.parseInt(jsonObject.optString("id").toString());
+               String name = jsonObject.optString("title").toString();
+               String imageUrl = jsonObject.optString("imageUrl").toString();
+
+               System.out.println("name **"+name);;
+               System.out.println("imageUrl **"+imageUrl);;
+
+           }*/
 
 
         } catch (JSONException e) {
