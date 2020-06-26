@@ -12,6 +12,8 @@ import android.os.CountDownTimer;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -47,11 +49,15 @@ import java.util.Random;
 /** Main Activity. Inflates main activity xml. */
 public class MainActivity extends Activity {
 
-//    Test Ad
+    String DATA_URL = "https://christus.github.io/Admob/data.json";
+
+    //Test Ad
     private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
 
     //Prod Ad
     //private static final String AD_UNIT_ID = "ca-app-pub-8752511525491597/8926447535";
+
+    int showAdAfter = 5;
 
     private static final long COUNTER_TIME = 10;
     private static final int GAME_OVER_REWARD = 0;
@@ -71,10 +77,10 @@ public class MainActivity extends Activity {
     private ImageButton shareBtn;
     ProgressDialog pd;
 
+    int stateIndex;
 
 
-
-    String JSON_STRING = "{\"result\":[{\"title\":\"`’Tis true I have both face and hands,And move before your eyes, Yet when I go, my body stands,And when I stand, I lie.`\",\"imageUrl\":\"clock\"},{\"title\":\"`M y clothing’s fine as velvet rare,Though under earth my dwel. lings a r e ; And when above it I appear, M y enemies put me oft in fear.T h e gard’ner does at me repine, I spoil his works as he doesmine.`\",\"imageUrl\":\"mole\"},{\"title\":\"`My form is beauteous to the rav.        ish’d sight, My habit gay, my color gold or white ; When ladies take the air, I  without pride,A faithful partner am close by their side. I near their persons constantly remain, A favorite slave, bound with a  golden chain ; And though I can both speak and go alone,  Yet are my motions to myself unknown.`\",\"imageUrl\":\"snake\"}]}";
+    String JSON_STRING;
 
     static int item = 0;
 
@@ -94,9 +100,14 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
-        new JsonTask().execute("Url address here");
+        new JsonTask().execute(DATA_URL);
 
 
 
@@ -120,11 +131,13 @@ public class MainActivity extends Activity {
 
         shareBtn = (ImageButton) findViewById(R.id.share_btn);
 
-        int stateIndex = getCurrentState();
+        stateIndex = getCurrentState();
 
         System.out.println("&&&&&&&&&&&&Index"+ stateIndex);
 
-        showQA(stateIndex);
+        item = stateIndex;
+
+
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -175,13 +188,14 @@ public class MainActivity extends Activity {
         nextQa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(item % 2 == 0){
+                item++;
+                if(item % showAdAfter == 0){
                     showRewardedVideo();
                 }else {
                     storeCurrentState(item);
-                    item++;
                     showQA(item);
                     speechTxtView.setText("");
+                    System.out.println("Item,,,,"+item);
                 }
 
 
@@ -227,7 +241,7 @@ public class MainActivity extends Activity {
     }
 
     private void showQA(int item) {
-        JSON_STRING = readJsonFromAsset();
+       // JSON_STRING = readJsonFromAsset();
         System.out.println("JSON_STRING"+ JSON_STRING);;
         try{
             JSONObject  jsonRootObject = new JSONObject(JSON_STRING);
@@ -321,15 +335,15 @@ public class MainActivity extends Activity {
                         public void onRewardedAdLoaded() {
                             // Ad successfully loaded.
                             MainActivity.this.isLoading = false;
-                            Toast.makeText(MainActivity.this, "onRewardedAdLoaded", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "onRewardedAdLoaded", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onRewardedAdFailedToLoad(int errorCode) {
                             // Ad failed to load.
                             MainActivity.this.isLoading = false;
-                            Toast.makeText(MainActivity.this, "onRewardedAdFailedToLoad", Toast.LENGTH_SHORT)
-                                    .show();
+//                            Toast.makeText(MainActivity.this, "onRewardedAdFailedToLoad", Toast.LENGTH_SHORT)
+//                                    .show();
                         }
                     });
         }
@@ -405,9 +419,9 @@ public class MainActivity extends Activity {
                             Toast.makeText(MainActivity.this, "onUserEarnedReward", Toast.LENGTH_SHORT).show();
                             addCoins(rewardItem.getAmount());
 
-                            item++;
                             showQA(item);
                             speechTxtView.setText("");
+                            System.out.println("Item,,,,"+item);
                         }
 
                         @Override
@@ -415,9 +429,9 @@ public class MainActivity extends Activity {
                             // Ad failed to display
                             Toast.makeText(MainActivity.this, "onRewardedAdFailedToShow", Toast.LENGTH_SHORT)
                                     .show();
-                            item++;
                             showQA(item);
                             speechTxtView.setText("");
+                            System.out.println("Item,,,,"+item);
                         }
                     };
             rewardedAd.show(this, adCallback);
@@ -562,6 +576,13 @@ public class MainActivity extends Activity {
             if (pd.isShowing()){
                 pd.dismiss();
             }
+
+            JSON_STRING = result;
+
+            System.out.println("JSON_STRING*********"+ JSON_STRING);
+
+            showQA(stateIndex);
+
         }
     }
 
