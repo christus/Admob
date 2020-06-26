@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Admobapp</string>
+    <string name="app_name">Chilli Riddles</string>
     <string name="action_settings">Settings</string>
-    <string name="impossible_game">Puzzle Game</string>
+    <string name="impossible_game">Chilly Riddle</string>
     <string name="retry_button_text">Retry</string>
     <string name="watch_video_button_text">Watch Video for 10 additional coins</string>
     <string name="default_coin_text">Coins: 0</string>
