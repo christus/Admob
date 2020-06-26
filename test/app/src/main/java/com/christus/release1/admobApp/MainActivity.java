@@ -402,13 +402,13 @@ public class MainActivity extends Activity {
                         @Override
                         public void onRewardedAdOpened() {
                             // Ad opened.
-                            Toast.makeText(MainActivity.this, "onRewardedAdOpened", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "onRewardedAdOpened", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onRewardedAdClosed() {
                             // Ad closed.
-                            Toast.makeText(MainActivity.this, "onRewardedAdClosed", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "onRewardedAdClosed", Toast.LENGTH_SHORT).show();
                             // Preload the next video ad.
                             MainActivity.this.loadRewardedAd();
                         }
@@ -416,7 +416,7 @@ public class MainActivity extends Activity {
                         @Override
                         public void onUserEarnedReward(RewardItem rewardItem) {
                             // User earned reward.
-                            Toast.makeText(MainActivity.this, "onUserEarnedReward", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "onUserEarnedReward", Toast.LENGTH_SHORT).show();
                             addCoins(rewardItem.getAmount());
 
                             showQA(item);
@@ -427,8 +427,8 @@ public class MainActivity extends Activity {
                         @Override
                         public void onRewardedAdFailedToShow(int errorCode) {
                             // Ad failed to display
-                            Toast.makeText(MainActivity.this, "onRewardedAdFailedToShow", Toast.LENGTH_SHORT)
-                                    .show();
+//                            Toast.makeText(MainActivity.this, "onRewardedAdFailedToShow", Toast.LENGTH_SHORT)
+//                                    .show();
                             showQA(item);
                             speechTxtView.setText("");
                             System.out.println("Item,,,,"+item);
