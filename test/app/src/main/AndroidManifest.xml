@@ -22,9 +22,9 @@
             android:value="ca-app-pub-3940256099942544~3347511713"/>
 
         <!--production-->
-        <!--<meta-data-->
-            <!--android:name="com.google.android.gms.ads.APPLICATION_ID"-->
-            <!--android:value="ca-app-pub-8752511525491597~4038396015"/>-->
+        <!--<meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8752511525491597~4038396015"/>-->
 
 
     </application>

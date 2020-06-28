@@ -182,8 +182,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline4"
-        app:layout_constraintVertical_bias="0.632" />
+        app:layout_constraintTop_toBottomOf="@+id/ans_pls" />
 
     <TextView
         android:id="@+id/result"
@@ -261,13 +260,15 @@
         android:layout_marginRight="11dp"
         android:layout_marginBottom="8dp"
         android:shadowColor="#000"
-        android:text="Ask your friend"
+        android:text="Ask your friends"
         android:textColor="#FFF"
-        app:layout_constraintBottom_toTopOf="@+id/share_btn"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageUrl"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:layout_constraintVertical_bias="0.184" />
 
     <ImageButton
         android:id="@+id/share_btn"
@@ -303,6 +304,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline5"
         app:layout_constraintVertical_bias="0.666" />
+
+    <ImageView
+        android:id="@+id/punch"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/imageUrl"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:layout_constraintVertical_bias="0.058"
+        />
+
+    <TextView
+        android:id="@+id/puchTxt"
+        android:layout_width="84dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="6dp"
+        android:text="Punch !!!"
+        android:textColor="#311414"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/punch"
+        app:layout_constraintEnd_toStartOf="@+id/imageUrl"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

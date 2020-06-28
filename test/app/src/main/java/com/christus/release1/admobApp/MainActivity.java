@@ -57,13 +57,13 @@ public class MainActivity extends Activity {
     //Prod Ad
     //private static final String AD_UNIT_ID = "ca-app-pub-8752511525491597/8926447535";
 
-    int showAdAfter = 5;
+    int showAdAfter = 10;
 
     private static final long COUNTER_TIME = 10;
     private static final int GAME_OVER_REWARD = 0;
 
     private int coinCount;
-    private TextView coinCountText;
+    private TextView coinCountText, puchTxt;
     private CountDownTimer countDownTimer;
     private boolean gameOver;
     private boolean gamePaused;
@@ -86,7 +86,7 @@ public class MainActivity extends Activity {
 
     TextView puzzleTitle, speechTxtView, resultTxtView;
 
-    ImageView imageView;
+    ImageView imageView, punchView;
 
     private static final int REQ_CODE_SPEECH_INPUT = 100;
     private String answer;
@@ -123,7 +123,11 @@ public class MainActivity extends Activity {
 
         imageView = (ImageView) findViewById(R.id.imageUrl);
 
+        punchView =  (ImageView) findViewById(R.id.punch);
+
         resultTxtView = (TextView) findViewById(R.id.result);
+
+        puchTxt = (TextView) findViewById(R.id.puchTxt);
 
         nextQa = (Button) findViewById(R.id.next_qa);
 
@@ -189,6 +193,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 item++;
+                puchTxt.setVisibility(View.GONE);
                 if(item % showAdAfter == 0){
                     showRewardedVideo();
                 }else {
@@ -197,7 +202,6 @@ public class MainActivity extends Activity {
                     speechTxtView.setText("");
                     System.out.println("Item,,,,"+item);
                 }
-
 
             }
         });
@@ -220,6 +224,16 @@ public class MainActivity extends Activity {
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "From Silly riddles");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, s);
                 startActivity(Intent.createChooser(sharingIntent, "Share text via"));
+            }
+        });
+
+        punchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String punchImg = "dash";
+                imageView.setImageResource(getResources().getIdentifier(punchImg, "drawable", "com.christus.release1.admobApp"));
+                punchView.setVisibility(View.GONE);
+                puchTxt.setVisibility(View.GONE);
             }
         });
     }
@@ -282,9 +296,14 @@ public class MainActivity extends Activity {
 //        ChatSDK.ui().startSplashScreenActivity(this);
         String[] arrStr = {"sarcastic", "smiriking", "spriking"};
         String imageUrl = getRandom(arrStr);
+        String punchImg = "right_facing_fist";
         imageView.setImageResource(getResources().getIdentifier(imageUrl, "drawable", "com.christus.release1.admobApp"));
+        punchView.setImageResource(getResources().getIdentifier(punchImg, "drawable", "com.christus.release1.admobApp"));
+        puchTxt.setText("PUNCH!!!");
+        speechTxtView.setText(this.answer);
+        punchView.setVisibility(View.VISIBLE);
+        puchTxt.setVisibility(View.VISIBLE);
 
-        speechTxtView.setText(""+this.answer);
 
     }
 
