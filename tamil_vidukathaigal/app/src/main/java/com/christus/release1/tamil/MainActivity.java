@@ -46,7 +46,7 @@ import java.util.Random;
 /** Main Activity. Inflates main activity xml. */
 public class MainActivity extends Activity {
 
-    String DATA_URL = "https://christus.github.io/Admob/data.json";
+    String DATA_URL = "https://christus.github.io/Admob/tamil.json";
 
     //Test Ad
     private static final String AD_UNIT_ID = BuildConfig.AD_UNIT_ID;
@@ -228,7 +228,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String punchImg = "dash";
-                imageView.setImageResource(getResources().getIdentifier(punchImg, "drawable", "com.christus.release1.admobApp"));
+                imageView.setImageResource(getResources().getIdentifier(punchImg, "drawable", "com.christus.release1.tamil"));
                 punchView.setVisibility(View.GONE);
                 puchTxt.setVisibility(View.GONE);
             }
@@ -294,8 +294,8 @@ public class MainActivity extends Activity {
         String[] arrStr = {"sarcastic", "smiriking", "spriking"};
         String imageUrl = getRandom(arrStr);
         String punchImg = "right_facing_fist";
-        imageView.setImageResource(getResources().getIdentifier(imageUrl, "drawable", "com.christus.release1.admobApp"));
-        punchView.setImageResource(getResources().getIdentifier(punchImg, "drawable", "com.christus.release1.admobApp"));
+        imageView.setImageResource(getResources().getIdentifier(imageUrl, "drawable", "com.christus.release1.tamil"));
+        punchView.setImageResource(getResources().getIdentifier(punchImg, "drawable", "com.christus.release1.tamil"));
         puchTxt.setText("PUNCH!!!");
         speechTxtView.setText(this.answer);
         punchView.setVisibility(View.VISIBLE);
@@ -309,7 +309,7 @@ public class MainActivity extends Activity {
         String title = jsonObject.optString("title").toString();
         this.answer = jsonObject.optString("result").toString();
         String imageUrl = "thinking";
-        imageView.setImageResource(getResources().getIdentifier(imageUrl, "drawable", "com.christus.release1.admobApp"));
+        imageView.setImageResource(getResources().getIdentifier(imageUrl, "drawable", "com.christus.release1.tamil"));
         puzzleTitle.setText(title);
     }
 
