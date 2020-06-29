@@ -333,7 +333,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="6dp"
         android:text="Punch !!!"
-        android:textColor="#311414"
+        android:textColor="#E08686"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/punch"
