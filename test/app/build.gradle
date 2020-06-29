@@ -30,6 +30,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "AD_UNIT_ID", AD_UNIT_ID_PROD
+            resValue "string", "AD_API_KEY", AD_API_KEY_PROD
+            buildConfigField "int", "showAdAfter", showAdAfterProd
+        }
+        debug {
+            buildConfigField "String", "AD_UNIT_ID", AD_UNIT_ID_DEBUG
+            resValue "string", "AD_API_KEY", AD_API_KEY_DEBUG
+            buildConfigField "int", "showAdAfter", showAdAfterDebug
         }
     }
 }
