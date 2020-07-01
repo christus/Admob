@@ -296,7 +296,7 @@ public class MainActivity extends Activity {
         String punchImg = "right_facing_fist";
         imageView.setImageResource(getResources().getIdentifier(imageUrl, "drawable", "com.christus.release1.tamil"));
         punchView.setImageResource(getResources().getIdentifier(punchImg, "drawable", "com.christus.release1.tamil"));
-        puchTxt.setText("PUNCH!!!");
+        puchTxt.setText("குத்து !!!");
         speechTxtView.setText(this.answer);
         punchView.setVisibility(View.VISIBLE);
         puchTxt.setVisibility(View.VISIBLE);
