@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
+import com.mukesh.OnOtpCompletionListener;
+import com.mukesh.OtpView;
 import com.onesignal.OneSignal;
 
 import org.json.JSONArray;
@@ -70,10 +73,11 @@ public class MainActivity extends Activity {
 
     private RewardedAd rewardedAd;
     private Button retryButton, nextQa, previousQa;
-    private Button showVideoButton, ansPls;
+    private Button showVideoButton, ansPls, check;
     private long timeRemaining;
     boolean isLoading;
 
+    private EditText puzzleAns;
     private ImageButton shareBtn;
     ProgressDialog pd;
 
@@ -90,6 +94,9 @@ public class MainActivity extends Activity {
 
     private static final int REQ_CODE_SPEECH_INPUT = 100;
     private String answer;
+
+    private OtpView otpView;
+
 
     @Override
     public void onBackPressed() {
@@ -134,6 +141,13 @@ public class MainActivity extends Activity {
         previousQa = (Button) findViewById(R.id.previous);
 
         shareBtn = (ImageButton) findViewById(R.id.share_btn);
+
+        otpView = findViewById(R.id.otp_view);
+
+        check = (Button) findViewById(R.id.check);
+
+        puzzleAns = (EditText) findViewById(R.id.puzzle_ans);
+
 
         stateIndex = getCurrentState();
 
@@ -181,6 +195,20 @@ public class MainActivity extends Activity {
         coinCountText.setVisibility(View.GONE);
 
         startGame();
+
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String puzzleAnswer = puzzleAns.getText().toString();
+                if (puzzleAnswer.contains(answer)){
+                    Toast.makeText(MainActivity.this, "correct", Toast.LENGTH_SHORT)
+                                    .show();
+                }else {
+                    Toast.makeText(MainActivity.this, "not correct", Toast.LENGTH_SHORT)
+                                    .show();
+                }
+            }
+        });
 
         ansPls.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,6 +262,15 @@ public class MainActivity extends Activity {
                 imageView.setImageResource(getResources().getIdentifier(punchImg, "drawable", "com.christus.release1.admobApp"));
                 punchView.setVisibility(View.GONE);
                 puchTxt.setVisibility(View.GONE);
+            }
+        });
+
+        otpView.setOtpCompletionListener(new OnOtpCompletionListener() {
+            @Override
+            public void onOtpCompleted(String otp) {
+
+                // do Stuff
+                Log.d("onOtpCompleted=>", otp);
             }
         });
     }
@@ -301,6 +338,7 @@ public class MainActivity extends Activity {
         punchView.setImageResource(getResources().getIdentifier(punchImg, "drawable", "com.christus.release1.admobApp"));
         puchTxt.setText("PUNCH!!!");
         speechTxtView.setText(this.answer);
+        speechTxtView.setVisibility(View.VISIBLE);
         punchView.setVisibility(View.VISIBLE);
         puchTxt.setVisibility(View.VISIBLE);
 
@@ -470,6 +508,7 @@ public class MainActivity extends Activity {
                     Toast.makeText(MainActivity.this, result.get(0), Toast.LENGTH_SHORT)
                             .show();
                     speechTxtView.setText(""+speechTxt);
+                    speechTxtView.setVisibility(View.VISIBLE);
                     if(this.answer.equals(speechTxt)) {
                         Toast.makeText(MainActivity.this, "Move to next", Toast.LENGTH_SHORT)
                                 .show();
