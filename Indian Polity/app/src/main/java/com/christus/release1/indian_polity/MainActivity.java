@@ -46,7 +46,7 @@ import java.util.Random;
 /** Main Activity. Inflates main activity xml. */
 public class MainActivity extends Activity {
 
-    String DATA_URL = "https://christus.github.io/Admob/data.json";
+    String DATA_URL = "https://christus.github.io/Admob/indian_pol.json";
 
     //Test Ad
     private static final String AD_UNIT_ID = BuildConfig.AD_UNIT_ID;

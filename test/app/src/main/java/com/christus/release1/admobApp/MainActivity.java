@@ -1,9 +1,10 @@
 package com.christus.release1.admobApp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -44,7 +46,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Random;
 
 
@@ -65,7 +66,7 @@ public class MainActivity extends Activity {
     private static final long COUNTER_TIME = 10;
     private static final int GAME_OVER_REWARD = 0;
 
-    private int coinCount;
+    private int coinCount = 0;
     private TextView coinCountText, puchTxt;
     private CountDownTimer countDownTimer;
     private boolean gameOver;
@@ -96,6 +97,10 @@ public class MainActivity extends Activity {
     private String answer;
 
     private OtpView otpView;
+
+    private int attemp = 1;
+
+    private int totalAttemp = 3;
 
 
     @Override
@@ -191,39 +196,76 @@ public class MainActivity extends Activity {
         // Display current coin count to user.
         coinCountText = findViewById(R.id.coin_count_text);
         coinCount = 100;
-        coinCountText.setText("Coins: " + coinCount);
-        coinCountText.setVisibility(View.GONE);
+        coinCountText.setText("Coins: " + "" +coinCount);
+       // coinCountText.setVisibility(View.GONE);
 
         startGame();
 
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyBoard();
+
                 String puzzleAnswer = puzzleAns.getText().toString();
-                if (puzzleAnswer.contains(answer)){
+                String rightImg = "tick";
+                String wrongImg = "wrong";
+                if (!puzzleAnswer.isEmpty() && answer.toLowerCase().contains(puzzleAnswer.toLowerCase())){
                     Toast.makeText(MainActivity.this, "correct", Toast.LENGTH_SHORT)
                                     .show();
+                    imageView.setImageResource(getResources().getIdentifier(rightImg, "drawable", "com.christus.release1.admobApp"));
+                    imageView.setVisibility(View.VISIBLE);
+                    coinCount = coinCount+20;
+                    coinCountText.setText("Coins: " + coinCount);
+                    startVoiceInput();
                 }else {
                     Toast.makeText(MainActivity.this, "not correct", Toast.LENGTH_SHORT)
                                     .show();
+                    imageView.setImageResource(getResources().getIdentifier(wrongImg, "drawable", "com.christus.release1.admobApp"));
+                    imageView.setVisibility(View.VISIBLE);
+
+                    if(attemp == totalAttemp){
+                        check.setEnabled(false);
+                        ansPls.setEnabled(true);
+                        Toast.makeText(MainActivity.this, "You consumed all the free attempts", Toast.LENGTH_SHORT)
+                                .show();
+                    }else{
+                        Toast.makeText(MainActivity.this, totalAttemp-attemp+ " attempt left", Toast.LENGTH_SHORT)
+                                .show();
+                        attemp ++;
+                    }
                 }
+
+
+
             }
         });
 
         ansPls.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startVoiceInput();
+                hideKeyBoard();
+                check.setEnabled(true);
+                if(coinCount !=0 && attemp == totalAttemp){
+                    coinCount = coinCount-20;
+                    coinCountText.setText("Coins: " + coinCount);
+                    startVoiceInput();
+                }else{
+                    //show video to gain reward points
+                    showAlert();
+                }
+
             }
         });
 
         nextQa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                attemp = 0;
+                puzzleAns.setText("");
                 item++;
                 puchTxt.setVisibility(View.GONE);
                 if(item % showAdAfter == 0){
-                    showRewardedVideo();
+                  //  showRewardedVideo();
                 }else {
                     storeCurrentState(item);
                     showQA(item);
@@ -273,6 +315,38 @@ public class MainActivity extends Activity {
                 Log.d("onOtpCompleted=>", otp);
             }
         });
+    }
+
+    private void showAlert() {
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Alert")
+                .setMessage("To gain the points, see the video AD?")
+
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Continue with delete operation
+                        showRewardedVideo();
+                    }
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+
+    }
+
+    private void hideKeyBoard() {
+        InputMethodManager imm = (InputMethodManager) MainActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = MainActivity.this.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(MainActivity.this);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private String readJsonFromAsset() {
@@ -334,13 +408,13 @@ public class MainActivity extends Activity {
         String[] arrStr = {"sarcastic", "smiriking", "spriking"};
         String imageUrl = getRandom(arrStr);
         String punchImg = "right_facing_fist";
-        imageView.setImageResource(getResources().getIdentifier(imageUrl, "drawable", "com.christus.release1.admobApp"));
-        punchView.setImageResource(getResources().getIdentifier(punchImg, "drawable", "com.christus.release1.admobApp"));
-        puchTxt.setText("PUNCH!!!");
+//        imageView.setImageResource(getResources().getIdentifier(imageUrl, "drawable", "com.christus.release1.admobApp"));
+//        punchView.setImageResource(getResources().getIdentifier(punchImg, "drawable", "com.christus.release1.admobApp"));
+//        puchTxt.setText("PUNCH!!!");
         speechTxtView.setText(this.answer);
         speechTxtView.setVisibility(View.VISIBLE);
-        punchView.setVisibility(View.VISIBLE);
-        puchTxt.setVisibility(View.VISIBLE);
+        // punchView.setVisibility(View.VISIBLE);
+      //  puchTxt.setVisibility(View.VISIBLE);
 
 
     }
