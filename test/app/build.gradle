@@ -3,13 +3,15 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+    flavorDimensions "default"
     defaultConfig {
         applicationId "com.christus.release1.admobApp"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 3
+        versionCode 5
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
 
         manifestPlaceholders = [
                 onesignal_app_id: 'a8fac6ad-9985-435a-baab-937a419b1f31',
@@ -21,7 +23,16 @@ android {
 
     }
 
-    compileOptions {
+    productFlavors {
+        free {
+            manifestPlaceholders.ADMOBID = "ca-app-pub-3940256099942544~3347511713"
+        }
+        pro {
+            manifestPlaceholders.ADMOBID = "ca-app-pub-8752511525491597~4038396015"
+        }
+    }
+
+        compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -30,6 +41,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "AD_UNIT_ID", AD_UNIT_ID_PROD
+            resValue "string", "AD_API_KEY", AD_API_KEY_PROD
+            buildConfigField "int", "showAdAfter", showAdAfterProd
+        }
+        debug {
+            buildConfigField "String", "AD_UNIT_ID", AD_UNIT_ID_DEBUG
+            resValue "string", "AD_API_KEY", AD_API_KEY_DEBUG
+            buildConfigField "int", "showAdAfter", showAdAfterDebug
         }
     }
 }

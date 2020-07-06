@@ -55,12 +55,12 @@ public class MainActivity extends Activity {
     String DATA_URL = "https://christus.github.io/Admob/data.json";
 
     //Test Ad
-    private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
+    private static final String AD_UNIT_ID = BuildConfig.AD_UNIT_ID;
 
     //Prod Ad
     //private static final String AD_UNIT_ID = "ca-app-pub-8752511525491597/8926447535";
 
-    int showAdAfter = 10;
+    int showAdAfter = BuildConfig.showAdAfter;
 
     private static final long COUNTER_TIME = 10;
     private static final int GAME_OVER_REWARD = 0;

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.christus.release1.indian_polity">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/chilli"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/chilli"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.christus.release1.indian_polity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${ADMOBID}"  />
+
+        <!--production-->
+        <!--<meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8752511525491597~4038396015"/>-->
+
+
+    </application>
+
+
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+</manifest>

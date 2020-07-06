@@ -429,6 +429,42 @@
             app:layout_constraintTop_toTopOf="@+id/guideline4"
             app:layout_constraintVertical_bias="0.604" />
 
+    <ImageView
+        android:id="@+id/punch"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/right_facing_fist"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/imageUrl"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:layout_constraintVertical_bias="0.058" />
+
+    <TextView
+        android:id="@+id/puchTxt"
+        android:layout_width="84dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="6dp"
+        android:text="Punch !!!"
+        android:textColor="#E08686"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/punch"
+        app:layout_constraintEnd_toStartOf="@+id/imageUrl"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

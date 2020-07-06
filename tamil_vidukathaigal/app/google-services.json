@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "267589824401",
+    "firebase_url": "https://skeptical-acb27.firebaseio.com",
+    "project_id": "skeptical-acb27",
+    "storage_bucket": "skeptical-acb27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:267589824401:android:7fceadb1cdefd6d8e17430",
+        "android_client_info": {
+          "package_name": "com.christus.release1.admobApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "267589824401-5kl5odjkhpqjbrok72u97j0ltkjas6a5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmKJ2J3u4OxlzqTb0maHTTGusaOuSwooM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "267589824401-5kl5odjkhpqjbrok72u97j0ltkjas6a5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
