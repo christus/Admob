@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -45,7 +47,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 
@@ -73,6 +77,8 @@ public class MainActivity extends Activity {
     private boolean gamePaused;
 
     private RewardedAd rewardedAd;
+    private AdView mAdView;
+
     private Button retryButton, nextQa, previousQa;
     private Button showVideoButton, ansPls, check;
     private long timeRemaining;
@@ -100,13 +106,15 @@ public class MainActivity extends Activity {
 
     private int attemp = 1;
 
-    private int totalAttemp = 3;
+    private int totalAttemp = 2;
 
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         storeCurrentState(item);
+        storeCoins(coinCount);
+        storeDate();
     }
 
     @Override
@@ -153,12 +161,23 @@ public class MainActivity extends Activity {
 
         puzzleAns = (EditText) findViewById(R.id.puzzle_ans);
 
+        String compareDate = getDate();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        String currentDate = sdf.format(new Date());
+
 
         stateIndex = getCurrentState();
+
+        coinCount = getCoins();
 
         System.out.println("&&&&&&&&&&&&Index"+ stateIndex);
 
         item = stateIndex;
+
+        if(!compareDate.equals(currentDate)){
+            coinCount = 100;
+        }
 
 
 
@@ -169,6 +188,12 @@ public class MainActivity extends Activity {
         });
 
         loadRewardedAd();
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+
 
         // Create the "retry" button, which tries to show a rewarded ad between game plays.
         retryButton = findViewById(R.id.retry_button);
@@ -195,7 +220,6 @@ public class MainActivity extends Activity {
 
         // Display current coin count to user.
         coinCountText = findViewById(R.id.coin_count_text);
-        coinCount = 100;
         coinCountText.setText("Coins: " + "" +coinCount);
        // coinCountText.setVisibility(View.GONE);
 
@@ -243,15 +267,23 @@ public class MainActivity extends Activity {
         ansPls.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                String message = "You will lose 20 points, but by seeing reward video you will gain points";
+//                showAlert(message);
+
                 hideKeyBoard();
+                ansPls.setEnabled(false);
                 check.setEnabled(true);
                 if(coinCount !=0 && attemp == totalAttemp){
                     coinCount = coinCount-20;
+
                     coinCountText.setText("Coins: " + coinCount);
+                    storeCoins(coinCount);
                     startVoiceInput();
                 }else{
                     //show video to gain reward points
-                    showAlert();
+                    String msg = "To gain the points, see the video AD?";
+                    showAlert(msg);
+                    ansPls.setEnabled(true);
                 }
 
             }
@@ -317,10 +349,10 @@ public class MainActivity extends Activity {
         });
     }
 
-    private void showAlert() {
+    private void showAlert(String message) {
         new AlertDialog.Builder(MainActivity.this)
                 .setTitle("Alert")
-                .setMessage("To gain the points, see the video AD?")
+                .setMessage(message)
 
                 // Specifying a listener allows you to take an action before dismissing the dialog.
                 // The dialog is automatically dismissed when a dialog button is clicked.
@@ -481,7 +513,7 @@ public class MainActivity extends Activity {
     }
 
     private void addCoins(int coins) {
-        coinCount += coins;
+        coinCount += 20;
         coinCountText.setText("Coins: " + coinCount);
     }
 
@@ -518,7 +550,7 @@ public class MainActivity extends Activity {
 //                            showVideoButton.setVisibility(View.VISIBLE);
                         }
                         textView.setText("You Lose!");
-                        addCoins(GAME_OVER_REWARD);
+                     //   addCoins(GAME_OVER_REWARD);
                         gameOver = true;
                     }
                 };
@@ -550,7 +582,8 @@ public class MainActivity extends Activity {
 //                            Toast.makeText(MainActivity.this, "onUserEarnedReward", Toast.LENGTH_SHORT).show();
                             addCoins(rewardItem.getAmount());
 
-                            showQA(item);
+                            //showQA(item);
+                            startVoiceInput();
                             speechTxtView.setText("");
                             System.out.println("Item,,,,"+item);
                         }
@@ -560,7 +593,8 @@ public class MainActivity extends Activity {
                             // Ad failed to display
 //                            Toast.makeText(MainActivity.this, "onRewardedAdFailedToShow", Toast.LENGTH_SHORT)
 //                                    .show();
-                            showQA(item);
+                            //showQA(item);
+                            startVoiceInput();
                             speechTxtView.setText("");
                             System.out.println("Item,,,,"+item);
                         }
@@ -617,10 +651,74 @@ public class MainActivity extends Activity {
                 "currentIndex",
                 item);
 
-        // Once the changes have been made,
-        // we need to commit to apply those changes made,
-        // otherwise, it will throw an error
         myEdit.commit();
+
+    }
+
+    public void storeCoins(int coins) {
+        // Storing data into ShareitedPreferences
+        SharedPreferences sharedPreferences
+                = getSharedPreferences("MySharedPref",
+                MODE_PRIVATE);
+
+        // Creating an Editor object
+        // to edit(write to the file)
+        SharedPreferences.Editor myEdit
+                = sharedPreferences.edit();
+
+
+        myEdit.putInt(
+                "coins",
+                coins);
+
+        myEdit.commit();
+
+    }
+
+    public void storeDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        String currentDateandTime = sdf.format(new Date());
+
+        SharedPreferences sharedPreferences
+                = getSharedPreferences("MySharedPref",
+                MODE_PRIVATE);
+
+        // Creating an Editor object
+        // to edit(write to the file)
+        SharedPreferences.Editor myEdit
+                = sharedPreferences.edit();
+
+
+        myEdit.putString(
+                "date",
+                currentDateandTime);
+
+        myEdit.commit();
+
+    }
+
+    public String getDate(){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        String currentDateandTime = sdf.format(new Date());
+
+        SharedPreferences sh
+                = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
+        String a = sh.getString("date", currentDateandTime );
+
+        return a;
+
+    }
+
+
+    public int getCoins(){
+        SharedPreferences sh
+                = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
+        int a = sh.getInt("coins", 100);
+
+        return a;
 
     }
 
