@@ -360,6 +360,7 @@ public class MainActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         // Continue with delete operation
                         showRewardedVideo();
+                        addCoins(20);
                     }
                 })
 
